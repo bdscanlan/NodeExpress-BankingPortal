@@ -31,12 +31,5 @@ router.post('/transfer', (req, res) => {
 
 });
 
-router.get('/profile', (req, res) => {
-  res.render('profile', { user: users[0] });
-});
 
-router.get('/', (req, res) => {
-  res.render('index', { title: 'Account Summary', accounts: accounts });
-});
-
-module.exports = { router };
+module.exports = router;
