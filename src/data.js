@@ -13,4 +13,6 @@ const writeJSON = () => {
   fs.writeFileSync(path.join(__dirname, 'json/accounts.json'), accountsJSON, 'utf8');
 }
 
-export default writeJSON;
+//export default writeJSON;
+//export default users;
+//export default accounts;
