@@ -9,7 +9,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(express.static(path.join(__dirname, 'public')));
-//app.use(express.urlencoded, { extended: true });
+app.use(express.urlencoded({ extended: true }));
 
 const accountData = fs.readFileSync(path.join(__dirname, 'json/accounts.json'), 'UTF8');
 const accounts = JSON.parse(accountData);
@@ -49,9 +49,9 @@ app.post('/payment', (req, res) => {
   accounts.credit.balance = accounts.credit.balance - parseInt(req.body.amount);
   accounts.credit.available = parseInt(accounts.credit.available) + parseInt(req.body.amount);
 
-  var accountsJSON = JSON.stringify(accounts);
+  const accountsJSON = JSON.stringify(accounts);
 
-  fs.writeFileSync(accountsJSON, path.join(__dirname, 'json/accounts.json'), { encoding: 'utf8' });
+  fs.writeFileSync(path.join(__dirname, 'json/accounts.json'), accountsJSON, 'utf8');
 
   res.render('payment', { message: 'Payment Successful', account: accounts.credit });
 
@@ -59,12 +59,12 @@ app.post('/payment', (req, res) => {
 
 
 app.post('/transfer', (req, res) => {
-  accounts[req.body.from].balance = accounts[req.body.from].balance - parseInt(req.body.amount);
-  accounts[req.body.to].balance = accounts[req.body.to].balance + parseInt(req.body.amount);
+  accounts[req.body.from].balance = accounts[req.body.from].balance - req.body.amount;
+  accounts[req.body.to].balance = parseInt(accounts[req.body.to].balance) + parseInt(req.body.amount, 10);
 
-  var accountsJSON = JSON.stringify(accounts);
+  const accountsJSON = JSON.stringify(accounts);
 
-  fs.writeFileSync(accountsJSON, path.join(__dirname, 'json/accounts.json'), { encoding: 'utf8' });
+  fs.writeFileSync(path.join(__dirname, 'json/accounts.json'), accountsJSON, 'utf8');
 
   res.render('transfer', { message: 'Transfer Completed' });
 
