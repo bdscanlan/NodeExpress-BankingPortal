@@ -12,6 +12,6 @@ app.get('/', (req, res) => {
   res.render('index', { title: 'Index' });
 });
 
-app.listen(port, () => {
+app.listen(3000, () => {
   console.log(`Listening to requests on http://localhost:3000`);
 });
